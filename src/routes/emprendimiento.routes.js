@@ -16,6 +16,7 @@ const route = Router();
 
 route.post("/", [
     check("nombre", "debe existir el nombre").notEmpty(),
+    check("emprendimiento", "debe existir el emprendimiento").notEmpty(),
     validarCampos
 ], crearEmprendimiento);
 
@@ -29,6 +30,7 @@ route.get("/:id", [
 
 route.put("/:id", [
         check("nombre", "debe existir el nombre").notEmpty(),
+        check("emprendimiento", "debe existir el emprendimiento").notEmpty(),
         check("id").custom(existEmprendimiento),
         validarCampos
     ],

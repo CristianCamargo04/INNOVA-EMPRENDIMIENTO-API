@@ -1,13 +1,10 @@
 const { response, request } = require("express");
-const { Router } = require("express");
-const route = Router();
-
-const { Emprendimiento } = require("../models");
+const { Emprendimiento, Empresa } = require("../models");
 
 const fs = require("fs");
 const path = require("path");
 
-route.put("/:tipo/:id", function(req = request, res = response) {
+function cargarImagen(req = request, res = response) {
     const tipo = req.params.tipo;
     const id = req.params.id;
     if (!req.files)
@@ -17,7 +14,7 @@ route.put("/:tipo/:id", function(req = request, res = response) {
                 message: "No se ha seleccionado nigun archivo",
             },
         });
-    const tiposValidos = ["emprendimientos"];
+    const tiposValidos = ["emprendimientos", "empresas"];
     if (tiposValidos.indexOf(tipo) < 0) {
         return res.status(500).json({
             ok: false,
@@ -44,7 +41,6 @@ route.put("/:tipo/:id", function(req = request, res = response) {
     }
     //Cambiar nombre del archivo
     const nombreArchivo = `${id}-${new Date().getMilliseconds()}.${extension}`;
-
     archivo.mv(`uploads/${tipo}/${nombreArchivo}`, (err) => {
         if (err) {
             return res.status(500).json({
@@ -53,25 +49,42 @@ route.put("/:tipo/:id", function(req = request, res = response) {
             });
         }
         //Imagen cargada
-        if (tipo === 'emprendimientos') {
-            imagenEmprendimiento(id, res, nombreArchivo);
+        const cargas = {
+            emprendimientos: imagenModel(id, res, nombreArchivo, Emprendimiento, 'emprendimientos'),
+            empresas: imagenModel(id, res, nombreArchivo, Empresa, 'empresas'),
         }
+        cargas[tipo];
     });
-});
+}
 
-async function imagenEmprendimiento(id, res, nombreArchivo) {
-    let emprendimiento = await Emprendimiento.findByPk(id);
-    if (!emprendimiento) {
+function obtenerImagen(req, res) {
+    const tipo = req.params.tipo;
+    const img = req.params.img;
+    const pathImagen = path.resolve(
+        __dirname,
+        `../../uploads/${tipo}/${img}`
+    );
+    if (fs.existsSync(pathImagen)) {
+        res.sendFile(pathImagen);
+    } else {
+        const noImagePath = path.resolve(__dirname, "../assets/no-image.jpg");
+        res.sendFile(noImagePath);
+    }
+}
+
+async function imagenModel(id, res, nombreArchivo, model, tipo) {
+    let object = await model.findByPk(id);
+    if (!object) {
         return res.status(204).json({
-            msg: `No se encontro el tipo de convenio con el id: ${id}`
+            msg: `No se encontro el objecto con el id: ${id}`
         });
     }
-    borraArchivo(emprendimiento.imagen, 'emprendimientos');
-    emprendimiento.imagen = nombreArchivo;
-    emprendimiento.save();
+    borraArchivo(object.imagen, tipo);
+    object.imagen = nombreArchivo;
+    object.save();
     return res.status(200).json({
         ok: true,
-        emprendimiento,
+        object,
         imagen: nombreArchivo,
         message: "Imagen subida correctamente",
     });
@@ -87,4 +100,7 @@ function borraArchivo(nombreImagen, tipo) {
     }
 }
 
-module.exports = route;
+module.exports = {
+    cargarImagen,
+    obtenerImagen,
+}

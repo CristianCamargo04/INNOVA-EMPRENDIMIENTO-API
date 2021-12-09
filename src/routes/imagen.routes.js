@@ -1,22 +1,9 @@
 const { Router } = require("express");
 const route = Router();
 
-const fs = require("fs");
-const path = require("path");
+const { cargarImagen, obtenerImagen } = require("../controllers/imagen.controller");
 
-route.get("/:tipo/:img", (req, res) => {
-    const tipo = req.params.tipo;
-    const img = req.params.img;
-    const pathImagen = path.resolve(
-        __dirname,
-        `../../uploads/${tipo}/${img}`
-    );
-    if (fs.existsSync(pathImagen)) {
-        res.sendFile(pathImagen);
-    } else {
-        const noImagePath = path.resolve(__dirname, "../assets/no-image.jpg");
-        res.sendFile(noImagePath);
-    }
-});
+route.put("/:tipo/:id", cargarImagen);
+route.get("/:tipo/:img", obtenerImagen);
 
 module.exports = route;

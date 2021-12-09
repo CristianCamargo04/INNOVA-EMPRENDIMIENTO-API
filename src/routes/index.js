@@ -1,7 +1,7 @@
 const paths = {
     emprendimiento: "/api/emprendimientos",
+    empresa: "/api/empresas",
     imagen: "/api/imagen",
-    upload: "/api/upload",
 };
 
 module.exports = paths;
