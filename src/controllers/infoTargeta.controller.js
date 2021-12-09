@@ -1,4 +1,5 @@
 const { response, request } = require("express");
+const { Op } = require("sequelize");
 const { InfoTargeta } = require("../models");
 
 const crearInfoTargeta = async(req, res = response) => {
@@ -21,7 +22,15 @@ const obtenerInfoTargetasPorEmpresa = async(req = request, res) => {
 
 const obtenerInfoActualidadesPorEmpresa = async(req = request, res) => {
     let { empresa } = req.body;
-    const infoActualidades = await InfoTargeta.findAll({ where: { id_empresa: empresa, actualidad: true } });
+    const infoActualidades = await InfoTargeta.findAll({
+        where: {
+            id_empresa: empresa,
+            actualidad: true,
+            imagen: {
+                [Op.not]: null,
+            }
+        }
+    });
     res.status(200).json({
         infoActualidades
     });
