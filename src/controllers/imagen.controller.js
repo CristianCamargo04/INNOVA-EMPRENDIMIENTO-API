@@ -49,11 +49,8 @@ function cargarImagen(req = request, res = response) {
             });
         }
         //Imagen cargada
-        const cargas = {
-            emprendimientos: imagenModel(id, res, nombreArchivo, Emprendimiento, 'emprendimientos'),
-            empresas: imagenModel(id, res, nombreArchivo, Empresa, 'empresas'),
-        }
-        cargas[tipo];
+        if (tipo === 'emprendimientos') imagenModel(id, res, nombreArchivo, Emprendimiento, tipo);
+        if (tipo === 'empresas') imagenModel(id, res, nombreArchivo, Empresa, tipo);
     });
 }
 
