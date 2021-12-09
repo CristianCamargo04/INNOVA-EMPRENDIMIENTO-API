@@ -32,4 +32,7 @@ const Empresa = sequelize.define(
     }
 );
 
+Emprendimiento.hasMany(Empresa, { foreignKey: 'id' })
+Empresa.belongsTo(Emprendimiento, { foreignKey: 'id_emprendimiento' })
+
 module.exports = Empresa;

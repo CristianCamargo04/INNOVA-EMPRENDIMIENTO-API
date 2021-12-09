@@ -1,9 +1,6 @@
 const { response, request } = require("express");
 const { Empresa, Emprendimiento } = require("../models");
 
-Emprendimiento.hasMany(Empresa, { foreignKey: 'id' })
-Empresa.belongsTo(Emprendimiento, { foreignKey: 'id_emprendimiento' })
-
 const crearEmpresa = async(req, res = response) => {
     const data = req.body;
     let empresa = await Empresa.findOne({ where: { nombre: data.nombre } });
@@ -47,15 +44,20 @@ const buscarEmpresaPorId = async(req = request, res = response) => {
 const actualizarEmpresa = async(req = request, res = response) => {
     const data = req.body;
     const { id } = req.params;
-    let empresa = await Empresa.findOne({ where: { nombre: data.nombre } });
+    let empresa = await Empresa.findOne({
+        where: {
+            nombre: data.nombre,
+            id_emprendimiento: data.emprendimiento
+        }
+    });
     if (empresa) {
         res.status(400).json({
             msg: `Ya existe una Empresa con la nombre ${data.nombre}`
         });
     }
     empresa = await Empresa.findByPk(id);
-    empresa.nombre = data.nombre;
-    empresa.id_emprendimiento = data.emprendimiento || empresa.id_emprendimiento;
+    empresa.nombre = data.nombre || empresa.nombre;
+    empresa.id_emprendimiento = data.emprendimiento || empresa.data.emprendimiento;
     empresa.save();
     return res.status(200).json({
         empresa
