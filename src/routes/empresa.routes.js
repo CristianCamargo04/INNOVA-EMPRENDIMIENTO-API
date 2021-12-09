@@ -16,24 +16,23 @@ const route = Router();
 
 route.post("/", [
     check("nombre", "debe existir el nombre").notEmpty(),
-    check("nombre", "debe existir el nombre").notEmpty(),
+    check("emprendimiento", "debe existir el emprendimiento").notEmpty(),
     validarCampos
 ], crearEmpresa);
 
 route.get("/", obtenerEmpresas);
 
 route.get("/:id", [
-        check("id").custom(existEmpresa),
-        validarCampos
-    ],
-    buscarEmpresaPorId);
+    check("id").custom(existEmpresa),
+    validarCampos
+], buscarEmpresaPorId);
 
 route.put("/:id", [
-        check("nombre", "debe existir el nombre").notEmpty(),
-        check("id").custom(existEmpresa),
-        validarCampos
-    ],
-    actualizarEmpresa);
+    check("nombre", "debe existir el nombre").notEmpty(),
+    check("emprendimiento", "debe existir el emprendimiento").notEmpty(),
+    check("id").custom(existEmpresa),
+    validarCampos
+], actualizarEmpresa);
 
 route.delete("/:id", [
     check("id", "El id no debe ser nulo").notEmpty(),

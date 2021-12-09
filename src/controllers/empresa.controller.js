@@ -57,7 +57,7 @@ const actualizarEmpresa = async(req = request, res = response) => {
     }
     empresa = await Empresa.findByPk(id);
     empresa.nombre = data.nombre || empresa.nombre;
-    empresa.id_emprendimiento = data.emprendimiento || empresa.data.emprendimiento;
+    empresa.id_emprendimiento = data.emprendimiento || empresa.id_emprendimiento;
     empresa.save();
     return res.status(200).json({
         empresa
@@ -69,7 +69,7 @@ const eliminarEmpresa = async(req = request, res = response) => {
     let empresa = await Empresa.findByPk(id);
     empresa.destroy();
     return res.status(200).json({
-        msg: "Se ha laiminado correctamente la Empresa"
+        msg: "Se ha eliminado correctamente la Empresa"
     });
 }
 

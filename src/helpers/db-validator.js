@@ -1,6 +1,7 @@
 const {
     Emprendimiento,
     Empresa,
+    InfoItem,
 } = require("../models");
 
 const existEmprendimiento = async(id) => {
@@ -17,7 +18,15 @@ const existEmpresa = async(id) => {
     }
 }
 
+const existInfoItem = async(id) => {
+    const infoItem = await InfoItem.findByPk(id);
+    if (!infoItem) {
+        throw new Error(`el item con el id ${id} no se enceuntra registrado en la base de datos`);
+    }
+}
+
 module.exports = {
     existEmprendimiento,
     existEmpresa,
+    existInfoItem,
 }
