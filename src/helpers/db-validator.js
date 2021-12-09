@@ -5,6 +5,7 @@ const {
     InfoImagene,
     InfoItem,
     InfoParrafo,
+    InfoRede,
     InfoTargeta,
 } = require("../models");
 
@@ -50,6 +51,13 @@ const existInfoParrafo = async(id) => {
     }
 }
 
+const existInfoRede = async(id) => {
+    const infoRede = await InfoRede.findByPk(id);
+    if (!infoRede) {
+        throw new Error(`la red con el id ${id} no se encuentra registrado en la base de datos`);
+    }
+}
+
 const existInfoTargeta = async(id) => {
     const infoTargeta = await InfoTargeta.findByPk(id);
     if (!infoTargeta) {
@@ -64,5 +72,6 @@ module.exports = {
     existInfoImagene,
     existInfoItem,
     existInfoParrafo,
+    existInfoRede,
     existInfoTargeta,
 }

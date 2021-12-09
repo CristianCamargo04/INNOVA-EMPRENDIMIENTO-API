@@ -6,6 +6,7 @@ const paths = {
     infoImagene: "/api/imagenes",
     infoItem: "/api/items",
     infoParrafo: "/api/parrafos",
+    infoRede: "/api/redes",
     infoTargeta: "/api/tarjetas",
 };
 

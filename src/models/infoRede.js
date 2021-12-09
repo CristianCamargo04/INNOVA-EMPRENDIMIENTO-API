@@ -40,4 +40,7 @@ const InfoRede = sequelize.define(
     }
 );
 
+Icono.hasMany(InfoRede, { foreignKey: 'id' })
+InfoRede.belongsTo(Icono, { foreignKey: 'id_icono' })
+
 module.exports = InfoRede;
