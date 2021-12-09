@@ -13,9 +13,9 @@ const Icono = sequelize.define(
             allowNull: false,
             unique: true,
         },
-        icono: {
+        imagen: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
     }, {
         freezeTableName: true,

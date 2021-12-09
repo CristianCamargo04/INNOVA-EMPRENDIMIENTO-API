@@ -1,5 +1,7 @@
 const paths = {
-    //cargo: "/api/cargos",
+    emprendimiento: "/api/emprendimientos",
+    imagen: "/api/imagen",
+    upload: "/api/upload",
 };
 
 module.exports = paths;

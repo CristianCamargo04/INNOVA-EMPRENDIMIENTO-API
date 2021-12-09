@@ -1,25 +1,19 @@
 const express = require("express");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const paths = require("../routes/index");
 
 const { dbConnection } = require('../database/config');
 
-
 class Server {
+
     constructor() {
-
         this.app = express();
-
         this.paths = paths
-
         this.conectarDB();
-
         this.middleware();
-
         this.routes();
-
         this.port = process.env.PORT;
-
     }
 
     async conectarDB() {
@@ -37,6 +31,7 @@ class Server {
 
     middleware() {
         this.app.use(cors());
+        this.app.use(fileUpload());
         this.app.use(express.json());
         this.app.use(express.static("public"));
     }
@@ -44,6 +39,7 @@ class Server {
     listen() {
         this.app.listen(this.port, console.log(`Escuchando en el puerto ${this.port}`));
     }
+
 }
 
 module.exports = Server;

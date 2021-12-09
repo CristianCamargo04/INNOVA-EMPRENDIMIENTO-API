@@ -16,7 +16,7 @@ const Empresa = sequelize.define(
         },
         imagen: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         id_emprendimiento: {
             type: DataTypes.INTEGER,

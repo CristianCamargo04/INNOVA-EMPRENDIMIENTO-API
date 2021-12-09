@@ -15,7 +15,7 @@ const Emprendimiento = sequelize.define(
         },
         imagen: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
     }, {
         freezeTableName: true,
