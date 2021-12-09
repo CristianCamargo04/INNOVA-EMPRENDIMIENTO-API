@@ -1,6 +1,7 @@
 const {
     Emprendimiento,
     Empresa,
+    Icono,
     InfoImagene,
     InfoItem,
     InfoParrafo,
@@ -18,6 +19,13 @@ const existEmpresa = async(id) => {
     const empresa = await Empresa.findByPk(id);
     if (!empresa) {
         throw new Error(`la empresa con el id ${id} no se encuentra registrado en la base de datos`);
+    }
+}
+
+const existIcono = async(id) => {
+    const icono = await Icono.findByPk(id);
+    if (!icono) {
+        throw new Error(`el icono con el id ${id} no se encuentra registrado en la base de datos`);
     }
 }
 
@@ -52,6 +60,7 @@ const existInfoTargeta = async(id) => {
 module.exports = {
     existEmprendimiento,
     existEmpresa,
+    existIcono,
     existInfoImagene,
     existInfoItem,
     existInfoParrafo,

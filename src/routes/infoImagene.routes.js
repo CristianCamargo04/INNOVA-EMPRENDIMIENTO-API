@@ -4,6 +4,7 @@ const { check } = require("express-validator");
 const {
     crearInfoImagene,
     obtenerInfoImagenesPorEmpresa,
+    obtenerInfoImagenesPorEmpresaSinFoto,
     buscarInfoImagenePorId,
     actualizarInfoImagene,
     eliminarInfoImagene
@@ -23,6 +24,11 @@ route.get("/", [
     check("empresa", "debe existir la empresa").notEmpty(),
     validarCampos
 ], obtenerInfoImagenesPorEmpresa);
+
+route.get("/sinfoto/", [
+    check("empresa", "debe existir la empresa").notEmpty(),
+    validarCampos
+], obtenerInfoImagenesPorEmpresaSinFoto);
 
 route.get("/:id", [
     check("id").custom(existInfoImagene),

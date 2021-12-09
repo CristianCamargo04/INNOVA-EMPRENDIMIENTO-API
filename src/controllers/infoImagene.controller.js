@@ -1,4 +1,5 @@
 const { response, request } = require("express");
+const { Op } = require("sequelize");
 const { InfoImagene } = require("../models");
 
 const crearInfoImagene = async(req, res = response) => {
@@ -13,7 +14,29 @@ const crearInfoImagene = async(req, res = response) => {
 
 const obtenerInfoImagenesPorEmpresa = async(req = request, res) => {
     const { empresa } = req.body;
-    const infoImagenes = await InfoImagene.findAll({ where: { id_empresa: empresa } });
+    const infoImagenes = await InfoImagene.findAll({
+        where: {
+            id_empresa: empresa,
+            imagen: {
+                [Op.not]: null,
+            }
+        }
+    });
+    res.status(200).json({
+        infoImagenes
+    });
+}
+
+const obtenerInfoImagenesPorEmpresaSinFoto = async(req = request, res) => {
+    const { empresa } = req.body;
+    const infoImagenes = await InfoImagene.findAll({
+        where: {
+            id_empresa: empresa,
+            imagen: {
+                [Op.is]: null,
+            }
+        }
+    });
     res.status(200).json({
         infoImagenes
     });
@@ -55,6 +78,7 @@ const eliminarInfoImagene = async(req = request, res = response) => {
 module.exports = {
     crearInfoImagene,
     obtenerInfoImagenesPorEmpresa,
+    obtenerInfoImagenesPorEmpresaSinFoto,
     buscarInfoImagenePorId,
     actualizarInfoImagene,
     eliminarInfoImagene,
