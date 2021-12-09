@@ -2,6 +2,7 @@ const {
     Emprendimiento,
     Empresa,
     InfoItem,
+    InfoTargeta,
 } = require("../models");
 
 const existEmprendimiento = async(id) => {
@@ -25,8 +26,16 @@ const existInfoItem = async(id) => {
     }
 }
 
+const existInfoTargeta = async(id) => {
+    const infoTargeta = await InfoTargeta.findByPk(id);
+    if (!infoTargeta) {
+        throw new Error(`la tarjeta con el id ${id} no se enceuntra registrado en la base de datos`);
+    }
+}
+
 module.exports = {
     existEmprendimiento,
     existEmpresa,
     existInfoItem,
+    existInfoTargeta,
 }

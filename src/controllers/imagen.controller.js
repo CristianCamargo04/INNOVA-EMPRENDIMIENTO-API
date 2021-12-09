@@ -1,5 +1,9 @@
 const { response, request } = require("express");
-const { Emprendimiento, Empresa } = require("../models");
+const {
+    Emprendimiento,
+    Empresa,
+    InfoTargeta
+} = require("../models");
 
 const fs = require("fs");
 const path = require("path");
@@ -14,7 +18,7 @@ function cargarImagen(req = request, res = response) {
                 message: "No se ha seleccionado nigun archivo",
             },
         });
-    const tiposValidos = ["emprendimientos", "empresas"];
+    const tiposValidos = ["emprendimientos", "empresas", "tarjetas"];
     if (tiposValidos.indexOf(tipo) < 0) {
         return res.status(500).json({
             ok: false,
@@ -51,6 +55,7 @@ function cargarImagen(req = request, res = response) {
         //Imagen cargada
         if (tipo === 'emprendimientos') imagenModel(id, res, nombreArchivo, Emprendimiento, tipo);
         if (tipo === 'empresas') imagenModel(id, res, nombreArchivo, Empresa, tipo);
+        if (tipo === 'tarjetas') imagenModel(id, res, nombreArchivo, InfoTargeta, tipo);
     });
 }
 
