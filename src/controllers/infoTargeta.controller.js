@@ -13,24 +13,29 @@ const crearInfoTargeta = async(req, res = response) => {
 }
 
 const obtenerInfoTargetasPorEmpresa = async(req = request, res) => {
-    let { empresa } = req.body;
-    const infoTargetas = await InfoTargeta.findAll({ where: { id_empresa: empresa, actualidad: false } });
+    let { empresa } = req.query;
+    let where = { actualidad: false };
+    if (empresa) {
+        where.id_empresa = empresa;
+    }
+    const infoTargetas = await InfoTargeta.findAll({ where });
     res.status(200).json({
         infoTargetas
     });
 }
 
 const obtenerInfoActualidadesPorEmpresa = async(req = request, res) => {
-    let { empresa } = req.body;
-    const infoActualidades = await InfoTargeta.findAll({
-        where: {
-            id_empresa: empresa,
-            actualidad: true,
-            imagen: {
-                [Op.not]: null,
-            }
+    let { empresa } = req.query;
+    let where = {
+        actualidad: true,
+        imagen: {
+            [Op.not]: null,
         }
-    });
+    };
+    if (empresa) {
+        where.id_empresa = empresa;
+    }
+    const infoActualidades = await InfoTargeta.findAll({ where });
     res.status(200).json({
         infoActualidades
     });

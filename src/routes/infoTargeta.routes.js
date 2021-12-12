@@ -23,15 +23,9 @@ route.post("/", [
     validarCampos
 ], crearInfoTargeta);
 
-route.get("/", [
-    check("empresa", "debe existir la empresa").notEmpty(),
-    validarCampos
-], obtenerInfoTargetasPorEmpresa);
+route.get("/", obtenerInfoTargetasPorEmpresa);
 
-route.get("/actualidades/", [
-    check("empresa", "debe existir la empresa").notEmpty(),
-    validarCampos
-], obtenerInfoActualidadesPorEmpresa);
+route.get("/actualidades/", obtenerInfoActualidadesPorEmpresa);
 
 route.get("/:id", [
     check("id").custom(existInfoTargeta),
